@@ -1,56 +1,84 @@
 
 import React from 'react';
-import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import SoundVisualizer from './SoundVisualizer';
-import AnimatedLogo from './AnimatedLogo';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { User, LogOut, Settings } from 'lucide-react';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const { user, signOut, hasPermission } = useAuth();
+  const navigate = useNavigate();
 
-  const isActive = (path: string) => location.pathname === path;
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
-      <div className="container mx-auto px-4 py-4">
+      <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Link to="/">
-              <AnimatedLogo />
-            </Link>
-            <SoundVisualizer />
-          </div>
+          <Link to="/" className="text-2xl font-bold text-white">
+            DJ Mike Morino
+          </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className={`transition-colors ${isActive('/') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`}>Home</Link>
-            <Link to="/about" className={`transition-colors ${isActive('/about') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`}>About</Link>
-            <Link to="/live" className={`transition-colors ${isActive('/live') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`}>Live</Link>
-            <Link to="/music" className={`transition-colors ${isActive('/music') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`}>Music</Link>
-            <Link to="/contact" className={`transition-colors ${isActive('/contact') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`}>Contact</Link>
-          </nav>
+          <div className="hidden md:flex items-center space-x-8">
+            <Link to="/" className="text-white/80 hover:text-white transition-colors">
+              Home
+            </Link>
+            <Link to="/about" className="text-white/80 hover:text-white transition-colors">
+              About
+            </Link>
+            <Link to="/live" className="text-white/80 hover:text-white transition-colors">
+              Live
+            </Link>
+            <Link to="/music" className="text-white/80 hover:text-white transition-colors">
+              Music
+            </Link>
+            <Link to="/contact" className="text-white/80 hover:text-white transition-colors">
+              Contact
+            </Link>
+          </div>
 
-          <button 
-            className="md:hidden text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <>
+                {hasPermission('view_dashboard') && (
+                  <Link to="/backend/dashboard">
+                    <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
+                      <Settings className="w-4 h-4 mr-2" />
+                      Backend
+                    </Button>
+                  </Link>
+                )}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="text-white hover:bg-white/10"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Abmelden
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth/login">
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
+                    <User className="w-4 h-4 mr-2" />
+                    Anmelden
+                  </Button>
+                </Link>
+                <Link to="/auth/register">
+                  <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                    Registrieren
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-
-        {isMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4">
-            <div className="flex flex-col space-y-4">
-              <Link to="/" className={`transition-colors ${isActive('/') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`} onClick={() => setIsMenuOpen(false)}>Home</Link>
-              <Link to="/about" className={`transition-colors ${isActive('/about') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`} onClick={() => setIsMenuOpen(false)}>About</Link>
-              <Link to="/live" className={`transition-colors ${isActive('/live') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`} onClick={() => setIsMenuOpen(false)}>Live</Link>
-              <Link to="/music" className={`transition-colors ${isActive('/music') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`} onClick={() => setIsMenuOpen(false)}>Music</Link>
-              <Link to="/contact" className={`transition-colors ${isActive('/contact') ? 'text-pink-400' : 'text-white hover:text-pink-400'}`} onClick={() => setIsMenuOpen(false)}>Contact</Link>
-            </div>
-          </nav>
-        )}
-      </div>
+      </nav>
     </header>
   );
 };
