@@ -40,7 +40,15 @@ export type Database = {
           name?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "albums_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       gallery_images: {
         Row: {
@@ -90,34 +98,70 @@ export type Database = {
             referencedRelation: "albums"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "gallery_images_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
         ]
       }
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string
           display_name: string | null
+          email: string | null
+          first_name: string | null
           id: string
+          last_login: string | null
+          last_name: string | null
+          phone: string | null
+          status: string | null
           updated_at: string
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
+          first_name?: string | null
           id: string
+          last_login?: string | null
+          last_name?: string | null
+          phone?: string | null
+          status?: string | null
           updated_at?: string
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
+          first_name?: string | null
           id?: string
+          last_login?: string | null
+          last_name?: string | null
+          phone?: string | null
+          status?: string | null
           updated_at?: string
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       role_permissions: {
         Row: {
@@ -173,6 +217,41 @@ export type Database = {
         }
         Relationships: []
       }
+      user_audit_log: {
+        Row: {
+          action_details: Json | null
+          action_type: string
+          id: string
+          performed_at: string
+          performed_by: string | null
+          target_user_id: string
+        }
+        Insert: {
+          action_details?: Json | null
+          action_type: string
+          id?: string
+          performed_at?: string
+          performed_by?: string | null
+          target_user_id: string
+        }
+        Update: {
+          action_details?: Json | null
+          action_type?: string
+          id?: string
+          performed_at?: string
+          performed_by?: string | null
+          target_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_audit_log_performed_by_fkey"
+            columns: ["performed_by"]
+            isOneToOne: false
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           assigned_at: string
@@ -195,11 +274,49 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_assigned_by_fkey"
+            columns: ["assigned_by"]
+            isOneToOne: false
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_management_view"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
-      [_ in never]: never
+      user_management_view: {
+        Row: {
+          auth_email: string | null
+          avatar_url: string | null
+          bio: string | null
+          display_name: string | null
+          email_confirmed_at: string | null
+          first_name: string | null
+          id: string | null
+          last_login: string | null
+          last_name: string | null
+          last_sign_in_at: string | null
+          phone: string | null
+          primary_email: string | null
+          profile_created_at: string | null
+          profile_email: string | null
+          profile_updated_at: string | null
+          registered_at: string | null
+          roles: Database["public"]["Enums"]["app_role"][] | null
+          status: string | null
+          username: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_permission: {
@@ -215,6 +332,17 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
         }
         Returns: boolean
+      }
+      update_user_roles: {
+        Args: {
+          target_user_id: string
+          new_roles: Database["public"]["Enums"]["app_role"][]
+        }
+        Returns: undefined
+      }
+      update_user_status: {
+        Args: { target_user_id: string; new_status: string }
+        Returns: undefined
       }
     }
     Enums: {

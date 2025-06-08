@@ -26,6 +26,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 // Backend Pages
 import Dashboard from "./pages/backend/Dashboard";
 import Users from "./pages/backend/Users";
+import UserDetails from "./pages/backend/UserDetails";
 import BackendGallery from "./pages/backend/Gallery";
 import SocialMedia from "./pages/backend/SocialMedia";
 
@@ -68,6 +69,14 @@ const App = () => (
               element={
                 <ProtectedRoute requiredPermissions={['manage_users']}>
                   <Users />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/backend/users/:userId" 
+              element={
+                <ProtectedRoute requiredPermissions={['manage_users']}>
+                  <UserDetails />
                 </ProtectedRoute>
               } 
             />
