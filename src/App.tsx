@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Live from "./pages/Live";
 import Music from "./pages/Music";
+import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
@@ -25,6 +26,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 // Backend Pages
 import Dashboard from "./pages/backend/Dashboard";
 import Users from "./pages/backend/Users";
+import BackendGallery from "./pages/backend/Gallery";
+import SocialMedia from "./pages/backend/SocialMedia";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/live" element={<Live />} />
             <Route path="/music" element={<Music />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
@@ -64,6 +68,22 @@ const App = () => (
               element={
                 <ProtectedRoute requiredPermissions={['manage_users']}>
                   <Users />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/backend/gallery" 
+              element={
+                <ProtectedRoute requiredPermissions={['manage_content']}>
+                  <BackendGallery />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/backend/social-media" 
+              element={
+                <ProtectedRoute requiredPermissions={['manage_content']}>
+                  <SocialMedia />
                 </ProtectedRoute>
               } 
             />

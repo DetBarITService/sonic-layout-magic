@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import LiveTwitch from '../components/LiveTwitch';
 import Music from '../components/Music';
+import FeaturedGallery from '../components/gallery/FeaturedGallery';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 
@@ -16,6 +17,7 @@ const Index = () => {
       <About />
       <LiveTwitch />
       <Music />
+      <FeaturedGallery />
       <Contact />
       <Footer />
     </div>

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SocialMediaLinks from './footer/SocialMediaLinks';
 
 const Footer = () => {
   return (
@@ -27,6 +28,7 @@ const Footer = () => {
               <Link to="/about" className="block text-gray-400 hover:text-pink-400 transition-colors">About</Link>
               <Link to="/live" className="block text-gray-400 hover:text-pink-400 transition-colors">Live</Link>
               <Link to="/music" className="block text-gray-400 hover:text-pink-400 transition-colors">Music</Link>
+              <Link to="/gallery" className="block text-gray-400 hover:text-pink-400 transition-colors">Gallery</Link>
               <Link to="/contact" className="block text-gray-400 hover:text-pink-400 transition-colors">Contact</Link>
             </div>
           </div>
@@ -39,6 +41,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        
+        {/* Social Media Links */}
+        <SocialMediaLinks />
         
         <div className="text-center mt-8 pt-8 border-t border-white/10">
           <p className="text-gray-400 mb-4">

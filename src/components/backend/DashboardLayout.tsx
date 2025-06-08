@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
-import { Users, BarChart3, MessageCircle, Upload, Settings, LogOut, Home } from 'lucide-react';
+import { Users, BarChart3, MessageCircle, Upload, Settings, LogOut, Home, Image, Share2 } from 'lucide-react';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -31,6 +31,18 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       path: '/backend/users',
       icon: Users,
       permission: 'manage_users' as const,
+    },
+    {
+      name: 'Gallery verwalten',
+      path: '/backend/gallery',
+      icon: Image,
+      permission: 'manage_content' as const,
+    },
+    {
+      name: 'Social Media',
+      path: '/backend/social-media',
+      icon: Share2,
+      permission: 'manage_content' as const,
     },
     {
       name: 'Inhalte verwalten',

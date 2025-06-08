@@ -9,6 +9,89 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      albums: {
+        Row: {
+          cover_image_url: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          cover_image_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          cover_image_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gallery_images: {
+        Row: {
+          album_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string
+          is_featured: boolean | null
+          sort_order: number | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          album_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url: string
+          is_featured?: boolean | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          album_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string
+          is_featured?: boolean | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -51,6 +134,42 @@ export type Database = {
           id?: string
           permission?: Database["public"]["Enums"]["app_permission"]
           role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
+      social_media_links: {
+        Row: {
+          created_at: string
+          display_name: string
+          icon_name: string
+          id: string
+          is_active: boolean | null
+          platform: string
+          sort_order: number | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          icon_name: string
+          id?: string
+          is_active?: boolean | null
+          platform: string
+          sort_order?: number | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          sort_order?: number | null
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
