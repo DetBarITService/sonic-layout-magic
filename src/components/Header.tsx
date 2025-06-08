@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { User, LogOut, Settings } from 'lucide-react';
+import AnimatedLogo from './AnimatedLogo';
 
 const Header = () => {
   const { user, signOut, hasPermission } = useAuth();
@@ -18,8 +19,8 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-white">
-            DJ Mike Morino
+          <Link to="/" className="flex items-center">
+            <AnimatedLogo />
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
